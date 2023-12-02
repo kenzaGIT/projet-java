@@ -16,7 +16,9 @@ public class Projet {
     public static void main(String[] args) {
         // TODO code application logic here
         System.out.print("hjedqfqsdf");
-        System.out.println("projet.Projet.main()");
+
+        System.out.print("qsdqsdyiazesqd");
+
     }
     
 }
