@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 /**
  *
@@ -25,7 +26,7 @@ public class ClasseCatégorie {
         this.description = description;
     }
 
-    public static void enregisterCategorie(ClasseCatégorie c) {
+    public static void nouvelCategorie(ClasseCatégorie c) {
         try {
             Connection conn = mySQL.getConnection();
             conn.setAutoCommit(false); // Set auto-commit to false
@@ -48,7 +49,38 @@ public class ClasseCatégorie {
         }
     }
 
-    public String toString() {
+    public static void modifierCategorie(ClasseCatégorie c) {
+
+    }
+
+    public static ClasseCatégorie getCategoryById(String id) {
+
+        try {
+            Connection conn = mySQL.getConnection();
+            conn.setAutoCommit(true);
+
+            String SQL = "SELECT * from category WHERE idC=" + id;
+            PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(SQL);
+            ResultSet rs = pstmt.executeQuery(SQL);
+            ClasseCatégorie c = null;
+            LinkedList<ClasseCatégorie> listCategory = new LinkedList<ClasseCatégorie>();
+
+            while (rs.next()) {
+                int idC = rs.getInt(1);
+                String nomC = rs.getString(2);
+                String description = rs.getString(3);
+                c = new ClasseCatégorie(nomC, description);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Impossible d'ajouter category");
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
+
+
+public String toString() {
         return """
                nomC: %s
                description: %s

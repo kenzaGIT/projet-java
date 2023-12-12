@@ -22,13 +22,10 @@ public class JavaProject {
 
         Scanner scN = new Scanner(System.in);
 
-        System.out.print("saisir le nom de la category");
+        System.out.print("saisir id de la category");
         String nomC = scN.next();
-        System.out.print("saisir un description");
-        String description = scN.next();
 
-        ClasseCatégorie newCat = new ClasseCatégorie(nomC, description);
-        ClasseCatégorie.enregisterCategorie(newCat);
+        ClasseCatégorie.getCategoryById(nomC);
 
     }
 }
