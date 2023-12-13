@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,13 +20,6 @@ import java.util.logging.Logger;
 public class JavaProject {
 
     public static void main(String[] args) {
-
-        Scanner scN = new Scanner(System.in);
-
-        System.out.print("saisir id de la category");
-        String nomC = scN.next();
-
-        ClasseCatégorie.getCategoryById(nomC);
 
     }
 }

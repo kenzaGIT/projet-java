@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+import java.util.Optional;
 
 /**
  *
@@ -20,8 +21,15 @@ public class ClasseCatégorie {
 
     String nom;
     String description;
+    int id;
 
     public ClasseCatégorie(String nom, String description) {
+        this.nom = nom;
+        this.description = description;
+    }
+
+    public ClasseCatégorie(int id, String nom, String description) {
+        this.id = id;
         this.nom = nom;
         this.description = description;
     }
@@ -53,15 +61,16 @@ public class ClasseCatégorie {
 
     }
 
-    public static ClasseCatégorie getCategoryById(String id) {
-
+    public static LinkedList<ClasseCatégorie> getCategory() {
         try {
             Connection conn = mySQL.getConnection();
             conn.setAutoCommit(true);
 
-            String SQL = "SELECT * from category WHERE idC=" + id;
-            PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(SQL);
-            ResultSet rs = pstmt.executeQuery(SQL);
+            String SQL = "SELECT * FROM categorie";
+
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+
+            ResultSet rs = pstmt.executeQuery();
             ClasseCatégorie c = null;
             LinkedList<ClasseCatégorie> listCategory = new LinkedList<ClasseCatégorie>();
 
@@ -69,22 +78,36 @@ public class ClasseCatégorie {
                 int idC = rs.getInt(1);
                 String nomC = rs.getString(2);
                 String description = rs.getString(3);
-                c = new ClasseCatégorie(nomC, description);
+                c = new ClasseCatégorie(idC, nomC, description);
+                listCategory.add(c);
+            }
+           
+            if (c == null) {
+                System.out.println("Categorie introuvable");
             }
 
+            return listCategory;
+
         } catch (SQLException ex) {
-            System.out.println("Impossible d'ajouter category");
+            System.out.println("Erreur Base de Données");
             System.out.println(ex.getMessage());
+            return null;
         }
-        return null;
     }
 
-
-public String toString() {
-        return """
-               nomC: %s
-               description: %s
-               """.formatted(nom, description);
+    public String toString() {
+        if (id != 0) {
+            return """
+            id: %d
+            nomC: %s
+            description: %s
+            """.formatted(id, nom, description);
+        } else {
+            return """
+            nomC: %s
+            description: %s
+            """.formatted(nom, description);
+        }
     }
 
 }

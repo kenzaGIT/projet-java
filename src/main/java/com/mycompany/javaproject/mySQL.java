@@ -22,7 +22,7 @@ public class mySQL {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:mysql://sql.freedb.tech:3306/freedb_java-projet?useSSL=false";
+            String url = "jdbc:mysql://sql.freedb.tech:3306/freedb_java-projet?allowPublicKeyRetrieval=true&useSSL=false";
             String username = "freedb_ryad benmanser";
             String password = "W?2QQh4*uFasAeN";
 

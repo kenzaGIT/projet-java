@@ -4,6 +4,10 @@
  */
 package com.mycompany.javaproject;
 
+import java.util.LinkedList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author macbookair
@@ -15,6 +19,21 @@ public class Admin extends javax.swing.JFrame {
      */
     public Admin() {
         initComponents();
+        this.refreshCategory();
+        
+
+    }
+
+    public void refreshCategory() {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+
+        LinkedList<ClasseCatégorie> categories = ClasseCatégorie.getCategory();
+        for (ClasseCatégorie category : categories) {
+            Object[] rowData = {category.id, category.nom, category.description}; // Replace getField1() and getField2() with actual getters
+            model.addRow(rowData);
+        }
+        //  Create button column
     }
 
     /**
@@ -203,6 +222,12 @@ public class Admin extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Heiti TC", 1, 14)); // NOI18N
         jLabel8.setText("Description");
 
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
@@ -212,6 +237,11 @@ public class Admin extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Helvetica", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(0, 102, 51));
         jButton2.setText("Add new category");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -224,6 +254,11 @@ public class Admin extends javax.swing.JFrame {
                 "IdCategory", " Category name", "Description", "Action"
             }
         ));
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jLabel9.setFont(new java.awt.Font("Helvetica", 1, 18)); // NOI18N
@@ -365,6 +400,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -375,6 +411,40 @@ public class Admin extends javax.swing.JFrame {
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+
+        if (jTextField3.getText().isEmpty() || jTextField4.getText().isEmpty()) {
+            // Show an error message
+            JOptionPane.showMessageDialog(this, "veuillez remplir tous les champs de la categorie", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        ClasseCatégorie c = new ClasseCatégorie(jTextField3.getText(), jTextField4.getText());
+        ClasseCatégorie.nouvelCategorie(c);
+        jTextField3.setText("");
+        jTextField4.setText("");
+
+        this.refreshCategory();
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+
+        int ligne = jTable2.getSelectedRow();
+        String name = jTable2.getValueAt(ligne, 1).toString();
+        String description = jTable2.getValueAt(ligne, 2).toString();
+
+        jTextField3.setText(name);
+        jTextField4.setText(description);
+    }//GEN-LAST:event_jTable2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -390,16 +460,24 @@ public class Admin extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Admin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Admin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Admin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Admin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
