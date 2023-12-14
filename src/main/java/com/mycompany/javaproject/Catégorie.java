@@ -58,7 +58,25 @@ public class Catégorie {
     }
 
     public static void modifierCategorie(Catégorie c) {
+        try {
+            Connection conn = mySQL.getConnection();
+            conn.setAutoCommit(false); // Set auto-commit to false
 
+            String SQL = "UPDATE categorie SET nomC = ?, description = ? WHERE idC = ?";
+
+            PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(SQL);
+            pstmt.setString(1, c.nom);
+            pstmt.setString(2, c.description);
+            pstmt.setInt(3, c.id);
+            int rowsUpdated = pstmt.executeUpdate();
+
+            conn.commit(); // Manually commit the transaction
+            System.out.println(rowsUpdated + " row(s) updated");
+
+        } catch (SQLException ex) {
+            System.out.println("Erreur dans la modification");
+            System.out.println(ex.getMessage());
+        }
     }
 
     public static LinkedList<Catégorie> getCategory() {
@@ -81,7 +99,7 @@ public class Catégorie {
                 c = new Catégorie(idC, nomC, description);
                 listCategory.add(c);
             }
-           
+
             if (c == null) {
                 System.out.println("Categorie introuvable");
             }
