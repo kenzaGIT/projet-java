@@ -28,8 +28,8 @@ public class Admin extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
 
-        LinkedList<ClasseCatégorie> categories = ClasseCatégorie.getCategory();
-        for (ClasseCatégorie category : categories) {
+        LinkedList<Catégorie> categories = Catégorie.getCategory();
+        for (Catégorie category : categories) {
             Object[] rowData = {category.id, category.nom, category.description}; // Replace getField1() and getField2() with actual getters
             model.addRow(rowData);
         }
@@ -99,6 +99,12 @@ public class Admin extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Heiti TC", 1, 14)); // NOI18N
         jLabel5.setText("Category");
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -106,6 +112,11 @@ public class Admin extends javax.swing.JFrame {
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -401,7 +412,10 @@ public class Admin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        // TODO add your handling code here:
+        
+       
+       
+      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -425,8 +439,8 @@ public class Admin extends javax.swing.JFrame {
             return;
         }
 
-        ClasseCatégorie c = new ClasseCatégorie(jTextField3.getText(), jTextField4.getText());
-        ClasseCatégorie.nouvelCategorie(c);
+       Catégorie c = new Catégorie(jTextField3.getText(), jTextField4.getText());
+       Catégorie.nouvelCategorie(c);
         jTextField3.setText("");
         jTextField4.setText("");
 
@@ -445,6 +459,14 @@ public class Admin extends javax.swing.JFrame {
         jTextField3.setText(name);
         jTextField4.setText(description);
     }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -8,6 +8,6 @@ package com.mycompany.javaproject;
  *
  * @author macbookair
  */
-public class ClasseVente {
+public class Vente {
     
 }

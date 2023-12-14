@@ -17,24 +17,24 @@ import java.util.Optional;
  *
  * @author macbookair
  */
-public class ClasseCatégorie {
+public class Catégorie {
 
     String nom;
     String description;
     int id;
 
-    public ClasseCatégorie(String nom, String description) {
+    public Catégorie(String nom, String description) {
         this.nom = nom;
         this.description = description;
     }
 
-    public ClasseCatégorie(int id, String nom, String description) {
+    public Catégorie(int id, String nom, String description) {
         this.id = id;
         this.nom = nom;
         this.description = description;
     }
 
-    public static void nouvelCategorie(ClasseCatégorie c) {
+    public static void nouvelCategorie(Catégorie c) {
         try {
             Connection conn = mySQL.getConnection();
             conn.setAutoCommit(false); // Set auto-commit to false
@@ -57,11 +57,11 @@ public class ClasseCatégorie {
         }
     }
 
-    public static void modifierCategorie(ClasseCatégorie c) {
+    public static void modifierCategorie(Catégorie c) {
 
     }
 
-    public static LinkedList<ClasseCatégorie> getCategory() {
+    public static LinkedList<Catégorie> getCategory() {
         try {
             Connection conn = mySQL.getConnection();
             conn.setAutoCommit(true);
@@ -71,14 +71,14 @@ public class ClasseCatégorie {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
 
             ResultSet rs = pstmt.executeQuery();
-            ClasseCatégorie c = null;
-            LinkedList<ClasseCatégorie> listCategory = new LinkedList<ClasseCatégorie>();
+            Catégorie c = null;
+            LinkedList<Catégorie> listCategory = new LinkedList<Catégorie>();
 
             while (rs.next()) {
                 int idC = rs.getInt(1);
                 String nomC = rs.getString(2);
                 String description = rs.getString(3);
-                c = new ClasseCatégorie(idC, nomC, description);
+                c = new Catégorie(idC, nomC, description);
                 listCategory.add(c);
             }
            
