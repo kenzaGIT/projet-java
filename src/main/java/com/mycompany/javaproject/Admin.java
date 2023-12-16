@@ -412,14 +412,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-       String nomProduit =  jTextField1.getText();
-       String prixUnitaire = jTextField2.getText();
-       int nbrUnites =  (Integer) jSpinner1.getValue();
-       String category = jComboBox1.getSelectedItem().toString();
        
-       
-       Produit p = new Produit(nomProduit, prixUnitaire, nbrUnites, category);
-       boolean resAjt = Produit. ;
        
        
       
