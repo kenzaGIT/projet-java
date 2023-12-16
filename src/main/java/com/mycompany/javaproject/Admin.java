@@ -30,6 +30,15 @@ public class Admin extends javax.swing.JFrame {
     public Admin() {
         initComponents();
         this.refreshCategory();
+        jComboBox1.removeAllItems();
+        LinkedList<Catégorie> categories = Catégorie.getCategory();
+        for (Catégorie category : categories) {
+            // Create an instance of your custom class with id, name, and description
+            Catégorie categoryItem = new Catégorie(category.id, category.nom, category.description);
+
+            // Add the instance to the JComboBox
+            jComboBox1.addItem(categoryItem.nom);
+        }
 
     }
 
@@ -434,24 +443,53 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    try {
+    
+    Connection conn = mySQL.getConnection();
+    String nomP = jTextField1.getText();
+    float prixU = Float.parseFloat(jTextField2.getText());
+    int quantite = (Integer) jSpinner1.getValue();
+    String nomCategorie = (String) jComboBox1.getSelectedItem();
 
-        String nomP = jTextField1.getText();
-        float prixU = Float.parseFloat(jTextField2.getText());
-        int quantite = (Integer) jSpinner1.getValue();
-        String idC = (String) jComboBox1.getSelectedItem();
+ 
+    if (nomP.isEmpty() || prixU <= 0 || quantite <= 0) {
+        JOptionPane.showMessageDialog(this, "The fields are empty or the informations you entered are wrong", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        Produit p = new Produit(nomP, prixU, quantite, idC);
+   
+    String sql = "SELECT idC FROM categorie WHERE nomC = ?";
+    PreparedStatement pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, nomCategorie);
+    
+   
+    ResultSet rs = pstmt.executeQuery();
 
-        Produit.enregistrerProduit(p);
+    
+    int idC = 0;
+    if (rs.next()) {
+        idC = rs.getInt("idC");
+    }
 
-        //if (resAjt) {
-          //  JOptionPane.showMessageDialog(this, "Produit enregistré avec succès", "Message", JOptionPane.PLAIN_MESSAGE);
+   
+    Produit p = new Produit(nomP, prixU, quantite, idC);
 
-            //Produit p = new Produit(nomP, prixU, quantite, idC);
-            //Produit.enregistrerProduit(p);
+ 
+    boolean resAjt = Produit.enregistrerProduit(p);
 
-        //}
+   System.out.println("+++LOIJUHGFGTYHUJIOLK?N BVC"+resAjt);
+    if (resAjt) {
+        JOptionPane.showMessageDialog(this, "Product added with success", "Produit ajouté avec succès", JOptionPane.PLAIN_MESSAGE);
+    } else {
+        JOptionPane.showMessageDialog(this, "Product was not added", "Produit non ajouté", JOptionPane.PLAIN_MESSAGE);
+    }
+}   catch (SQLException ex) {
+    ex.printStackTrace();  // Ceci affichera le message d'erreur complet et le stack trace dans la console
+    JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
+}
 
+
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -512,17 +550,6 @@ public class Admin extends javax.swing.JFrame {
 
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-
-        jComboBox1.removeAllItems();
-        LinkedList<Catégorie> categories = Catégorie.getCategory();
-        for (Catégorie category : categories) {
-            // Create an instance of your custom class with id, name, and description
-            Catégorie categoryItem = new Catégorie(category.id, category.nom, category.description);
-
-            // Add the instance to the JComboBox
-            jComboBox1.addItem(categoryItem.nom);
-
-        }
 
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
