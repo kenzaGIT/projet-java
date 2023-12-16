@@ -3,6 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.javaproject;
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,11 +36,9 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        ConnexionButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setSize(new java.awt.Dimension(500, 800));
 
         jLabel1.setFont(new java.awt.Font("Heiti SC", 1, 18)); // NOI18N
         jLabel1.setText("Username");
@@ -44,12 +47,24 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel2.setText("Password");
         jLabel2.setToolTipText("");
 
-        jButton1.setFont(new java.awt.Font("Heiti TC", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 102, 102));
-        jButton1.setText("Connexion");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
+
+        ConnexionButton.setFont(new java.awt.Font("Heiti TC", 1, 18)); // NOI18N
+        ConnexionButton.setForeground(new java.awt.Color(0, 102, 102));
+        ConnexionButton.setText("Connexion");
+        ConnexionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConnexionButtonActionPerformed(evt);
             }
         });
 
@@ -69,7 +84,7 @@ public class LoginForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(305, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(ConnexionButton)
                 .addGap(290, 290, 290))
         );
         jPanel1Layout.setVerticalGroup(
@@ -80,7 +95,7 @@ public class LoginForm extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
-                .addComponent(jButton1)
+                .addComponent(ConnexionButton)
                 .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -108,9 +123,61 @@ public class LoginForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void ConnexionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnexionButtonActionPerformed
+       String username= jTextField1.getText();
+       char[] passwordChars= jPasswordField1.getPassword();
+       String password = new String(passwordChars);
+       
+       try {
+            Connection conn = mySQL.getConnection();
+            conn.setAutoCommit(false); // Set auto-commit to false
+
+            String SQL = "SELECT username,password,user from connexion where username= ? and password= ?";
+            try(PreparedStatement preparedStatement = conn.prepareStatement(SQL)){
+                     preparedStatement.setString(1, username);
+                     preparedStatement.setString(2, password);
+                     ResultSet resultSet = preparedStatement.executeQuery();
+
+                    if (resultSet.next()) {
+                        JOptionPane.showMessageDialog(this, "Login Successful!");
+                        int user = resultSet.getInt("user");
+                      //  System.out.println(user);
+                        if (user == 0) {
+                          // User is a vendeur, navigate to VendeurForm
+                          this.dispose(); // Close the current login form
+                          Vendeur vendeurForm = new Vendeur(); // Replace with the actual class name
+                          vendeurForm.setVisible(true);
+                        }
+                        else if(user == 1){
+                          this.dispose(); // Close the current login form
+                          Admin adminForm = new Admin(); // Replace with the actual class name
+                          adminForm.setVisible(true);
+                        }
+                        else{
+                          JOptionPane.showMessageDialog(this, "Unknown user type. Please contact support.");
+                        }
+                      
+                     //this.dispose();
+             
+                    } else {
+                    // User not found, login failed
+                    JOptionPane.showMessageDialog(this, "Invalid username or password. Please try again.");
+                    }
+            } 
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error c to the database.");
+        }
+    }//GEN-LAST:event_ConnexionButtonActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,7 +215,7 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton ConnexionButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
