@@ -99,7 +99,7 @@ public class Catégorie {
         try {
             Connection conn = mySQL.getConnection();
             conn.setAutoCommit(false); // Set auto-commit to false
-
+            
             String SQL = "UPDATE categorie SET nomC = ?, description = ? WHERE idC = ?";
 
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(SQL);

@@ -4,9 +4,17 @@
  */
 package com.mycompany.javaproject;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JComboBox;
+
+import java.sql.*;
+
 
 /**
  *
@@ -25,7 +33,6 @@ public class Admin extends javax.swing.JFrame {
         this.refreshCategory();
 
     }
-
     public void refreshCategory() {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
@@ -113,7 +120,11 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox1MouseClicked(evt);
+            }
+        });
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -483,9 +494,23 @@ public class Admin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+   
+    
+
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
 
+      jComboBox1.removeAllItems();
+      LinkedList<Catégorie> categories = Catégorie.getCategory();
+       for (Catégorie category : categories) {
+            // Create an instance of your custom class with id, name, and description
+            Catégorie categoryItem = new Catégorie(category.id, category.nom, category.description);
+
+            // Add the instance to the JComboBox
+            jComboBox1.addItem(categoryItem.nom);
+        
+    }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
@@ -510,6 +535,10 @@ public class Admin extends javax.swing.JFrame {
         jToggleButton1.setSelected(false);
 
     }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
+    }//GEN-LAST:event_jComboBox1MouseClicked
+
 
     /**
      * @param args the command line arguments
@@ -589,4 +618,8 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables
+
+    private void print(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
