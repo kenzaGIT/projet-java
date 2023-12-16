@@ -157,8 +157,6 @@ public class LoginForm extends javax.swing.JFrame {
                         else{
                           JOptionPane.showMessageDialog(this, "Unknown user type. Please contact support.");
                         }
-                      
-                     //this.dispose();
              
                     } else {
                     // User not found, login failed
