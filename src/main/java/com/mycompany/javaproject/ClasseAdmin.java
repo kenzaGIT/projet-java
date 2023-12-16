@@ -8,6 +8,20 @@ package com.mycompany.javaproject;
  *
  * @author macbookair
  */
-public class ClasseAdmin {
+public class ClasseAdmin extends User {
+    
+    public ClasseAdmin(String id, String login, String password) {
+    	super(id, login, password);
+    }
+        
+ 
+    @Override
+    public String toString() {
+        return "toS cA==>" +super.toString();
+                
+    }
+       
+    
+    
     
 }
