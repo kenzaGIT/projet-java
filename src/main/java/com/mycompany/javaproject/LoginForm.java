@@ -124,9 +124,7 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ConnexionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnexionButtonActionPerformed
-<<<<<<< HEAD
      
-=======
        String username= jTextField1.getText();
        char[] passwordChars= jPasswordField1.getPassword();
        String password = new String(passwordChars);
@@ -151,6 +149,8 @@ public class LoginForm extends javax.swing.JFrame {
                           
                          Vendeur vendeurForm = new Vendeur(); // Replace with the actual class name
                          vendeurForm.setVisible(true);
+//                         Vendeur vendeurForm = new Vendeur("","",""); // Replace with the actual class name
+//                         vendeurForm.setVisible(true);
                         }
                         else if(user == 1){
                           this.dispose(); // Close the current login form
@@ -171,7 +171,6 @@ public class LoginForm extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
             JOptionPane.showMessageDialog(this, "Error c to the database.");
         }
->>>>>>> origin/main
     }//GEN-LAST:event_ConnexionButtonActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
