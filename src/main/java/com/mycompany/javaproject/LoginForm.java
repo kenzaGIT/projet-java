@@ -146,7 +146,7 @@ public class LoginForm extends javax.swing.JFrame {
                           // User is a vendeur, navigate to VendeurForm
                           this.dispose(); // Close the current login form
                           
-                         Vendeur vendeurForm = new Vendeur("","",""); // Replace with the actual class name
+                         Vendeur vendeurForm = new Vendeur(); // Replace with the actual class name
                          vendeurForm.setVisible(true);
                         }
                         else if(user == 1){
