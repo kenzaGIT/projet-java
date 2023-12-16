@@ -23,6 +23,10 @@ public class Catégorie {
     String description;
     int id;
 
+    public Catégorie() {
+
+    }
+
     public Catégorie(String nom, String description) {
         this.nom = nom;
         this.description = description;
@@ -32,6 +36,40 @@ public class Catégorie {
         this.id = id;
         this.nom = nom;
         this.description = description;
+    }
+
+    public static LinkedList<Catégorie> getCategory() {
+        try {
+            Connection conn = mySQL.getConnection();
+            conn.setAutoCommit(true);
+
+            String SQL = "SELECT * FROM categorie";
+
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+
+            ResultSet rs = pstmt.executeQuery();
+            Catégorie c = null;
+            LinkedList<Catégorie> listCategory = new LinkedList<Catégorie>();
+
+            while (rs.next()) {
+                int idC = rs.getInt(1);
+                String nomC = rs.getString(2);
+                String description = rs.getString(3);
+                c = new Catégorie(idC, nomC, description);
+                listCategory.add(c);
+            }
+
+            if (c == null) {
+                System.out.println("Categorie introuvable");
+            }
+
+            return listCategory;
+
+        } catch (SQLException ex) {
+            System.out.println("Erreur Base de Données");
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
 
     public static void nouvelCategorie(Catégorie c) {
@@ -79,37 +117,20 @@ public class Catégorie {
         }
     }
 
-    public static LinkedList<Catégorie> getCategory() {
+    public static void deleteCategory(Catégorie c) {
         try {
             Connection conn = mySQL.getConnection();
             conn.setAutoCommit(true);
 
-            String SQL = "SELECT * FROM categorie";
+            String SQL = "DELETE from categorie WHERE idC = ?";
+            PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(SQL);
 
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-
-            ResultSet rs = pstmt.executeQuery();
-            Catégorie c = null;
-            LinkedList<Catégorie> listCategory = new LinkedList<Catégorie>();
-
-            while (rs.next()) {
-                int idC = rs.getInt(1);
-                String nomC = rs.getString(2);
-                String description = rs.getString(3);
-                c = new Catégorie(idC, nomC, description);
-                listCategory.add(c);
-            }
-
-            if (c == null) {
-                System.out.println("Categorie introuvable");
-            }
-
-            return listCategory;
+            pstmt.setInt(1, c.id);
+            pstmt.executeUpdate();
 
         } catch (SQLException ex) {
-            System.out.println("Erreur Base de Données");
+            System.out.println("Erreur dans la suppression");
             System.out.println(ex.getMessage());
-            return null;
         }
     }
 

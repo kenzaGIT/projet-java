@@ -17,10 +17,12 @@ public class Admin extends javax.swing.JFrame {
     /**
      * Creates new form Admin
      */
+//    this variable heps when i need to modify or delete category based on his id
+    Catégorie GlobalCategorie = new Catégorie();
+
     public Admin() {
         initComponents();
         this.refreshCategory();
-        
 
     }
 
@@ -307,6 +309,11 @@ public class Admin extends javax.swing.JFrame {
         jToggleButton1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jToggleButton1.setForeground(new java.awt.Color(0, 102, 102));
         jToggleButton1.setText("Modify category");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
         jToggleButton2.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jToggleButton2.setForeground(new java.awt.Color(255, 0, 0));
@@ -417,10 +424,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-       
-       
-       
-      
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -428,7 +432,12 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+
         // TODO add your handling code here:
+        Catégorie.deleteCategory(GlobalCategorie);
+        jTextField3.setText("");
+        jTextField4.setText("");
+        this.refreshCategory();
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -444,8 +453,8 @@ public class Admin extends javax.swing.JFrame {
             return;
         }
 
-       Catégorie c = new Catégorie(jTextField3.getText(), jTextField4.getText());
-       Catégorie.nouvelCategorie(c);
+        Catégorie c = new Catégorie(jTextField3.getText(), jTextField4.getText());
+        Catégorie.nouvelCategorie(c);
         jTextField3.setText("");
         jTextField4.setText("");
 
@@ -460,9 +469,14 @@ public class Admin extends javax.swing.JFrame {
         int ligne = jTable2.getSelectedRow();
         String name = jTable2.getValueAt(ligne, 1).toString();
         String description = jTable2.getValueAt(ligne, 2).toString();
+        String id = jTable2.getValueAt(ligne, 0).toString();
 
         jTextField3.setText(name);
         jTextField4.setText(description);
+
+        GlobalCategorie = new Catégorie(Integer.valueOf(id), name, description);
+
+
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -470,12 +484,32 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-       
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+
+
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+
+//        int ligne = jTable2.getSelectedRow();
+//        String name = jTable2.getValueAt(ligne, 1).toString();
+//        String description = jTable2.getValueAt(ligne, 2).toString();
+//        jTextField3.getText();
+//        jTextField4.getText();
+        GlobalCategorie.description = jTextField4.getText();
+        GlobalCategorie.nom = jTextField3.getText();
+
+        Catégorie.modifierCategorie(GlobalCategorie);
+        this.refreshCategory();
+
+        jToggleButton1.setSelected(false);
+
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
