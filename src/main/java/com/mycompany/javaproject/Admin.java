@@ -31,6 +31,16 @@ public class Admin extends javax.swing.JFrame {
     public Admin() {
         initComponents();
         this.refreshCategory();
+        
+        jComboBox1.removeAllItems();
+        LinkedList<Catégorie> categories = Catégorie.getCategory();
+        for (Catégorie category : categories) {
+            // Create an instance of your custom class with id, name, and description
+            Catégorie categoryItem = new Catégorie(category.id, category.nom, category.description);
+
+            // Add the instance to the JComboBox
+            jComboBox1.addItem(categoryItem.nom);
+        }
 
     }
     public void refreshCategory() {
@@ -434,8 +444,22 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      
+         String nomP = jTextField1.getText();
+         float prixU = Float.parseFloat(jTextField2.getText());
+         int quantite = (Integer) jSpinner1.getValue(); // Ou (String) jSpinnerNumberOfUnits.getValue() si vous utilisez un JSpinner.
+         String idC = (String) jComboBox1.getSelectedItem();
+        if ( nomP.isEmpty() || prixU<=0  || quantite<=0  || idC .isEmpty()) {
+            // Show an error message
+            JOptionPane.showMessageDialog(this, "the fields are empty or you have entered wrong informations ", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
+        Produit p = new Produit(nomP, prixU, quantite, idC);
+        Produit.enregistrerProduit(p);
+        
 
+      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -499,16 +523,6 @@ public class Admin extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
 
-      jComboBox1.removeAllItems();
-      LinkedList<Catégorie> categories = Catégorie.getCategory();
-       for (Catégorie category : categories) {
-            // Create an instance of your custom class with id, name, and description
-            Catégorie categoryItem = new Catégorie(category.id, category.nom, category.description);
-
-            // Add the instance to the JComboBox
-            jComboBox1.addItem(categoryItem.nom);
-        
-    }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
 

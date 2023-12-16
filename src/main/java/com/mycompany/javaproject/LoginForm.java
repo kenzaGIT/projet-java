@@ -124,52 +124,7 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ConnexionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnexionButtonActionPerformed
-       String username= jTextField1.getText();
-       char[] passwordChars= jPasswordField1.getPassword();
-       String password = new String(passwordChars);
-       
-       try {
-            Connection conn = mySQL.getConnection();
-            conn.setAutoCommit(false); // Set auto-commit to false
-
-            String SQL = "SELECT username,password,user from connexion where username= ? and password= ?";
-            try(PreparedStatement preparedStatement = conn.prepareStatement(SQL)){
-                     preparedStatement.setString(1, username);
-                     preparedStatement.setString(2, password);
-                     ResultSet resultSet = preparedStatement.executeQuery();
-
-                    if (resultSet.next()) {
-                        JOptionPane.showMessageDialog(this, "Login Successful!");
-                        int user = resultSet.getInt("user");
-                      //  System.out.println(user);
-                        if (user == 0) {
-                          // User is a vendeur, navigate to VendeurForm
-                          this.dispose(); // Close the current login form
-                          
-                         Vendeur vendeurForm = new Vendeur("","",""); // Replace with the actual class name
-                         vendeurForm.setVisible(true);
-                        }
-                        else if(user == 1){
-                          this.dispose(); // Close the current login form
-                          Admin adminForm = new Admin(); // Replace with the actual class name
-                          adminForm.setVisible(true);
-                        }
-                        else{
-                          JOptionPane.showMessageDialog(this, "Unknown user type. Please contact support.");
-                        }
-                      
-                     //this.dispose();
-             
-                    } else {
-                    // User not found, login failed
-                    JOptionPane.showMessageDialog(this, "Invalid username or password. Please try again.");
-                    }
-            } 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println(ex.getMessage());
-            JOptionPane.showMessageDialog(this, "Error c to the database.");
-        }
+     
     }//GEN-LAST:event_ConnexionButtonActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

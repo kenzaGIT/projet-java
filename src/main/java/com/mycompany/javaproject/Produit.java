@@ -55,31 +55,34 @@ public class Produit {
     }
     
     
-    public static boolean enregistrerProduit(Produit p){
-        boolean res = false;
-        int r =0;
-        try{
+    public static void enregistrerProduit(Produit p) {
+        
+        
+        try {
             Connection conn = mySQL.getConnection();
-            String SQL = "INSERT INTO produit(idP,nomP, prixU, quantite, idC)" + "VALUES(null,?, ?, ?, ?)";
+     
+
+            String SQL = "INSERT INTO categorie (idP, nomP, prixU, quantite, idC) VALUES (null,?, ?, ?, ?)";
+            System.out.println("SQL Statement: " + SQL); // Print the SQL statement
+
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(SQL);
-            
             pstmt.setString(1, p.nomP);
             pstmt.setFloat(2, p.prixU);
             pstmt.setInt(3, p.quantite);
             pstmt.setString(4, p.idC);
             
-            r = pstmt.executeUpdate();
             
-            if (r==1)
-                res = true;
-                
-            
-        }catch(SQLException ex){
-                System.out.print("Problème d'ajout du nouveau produit ");
-                System.out.println(ex.getMessage());
+
+            int r = pstmt.executeUpdate();
+
+            System.out.println("pstmt.toString() : " + pstmt.toString());
+
+            conn.commit(); // Manually commit the transaction
+        } catch (SQLException ex) {
+            System.out.println("Problème d'ajout du nouveau produit");
+            System.out.println(ex.getMessage());
         }
         
-        return res;
     }
     
             
