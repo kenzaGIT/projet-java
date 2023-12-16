@@ -55,7 +55,7 @@ public class Produit {
     }
     
     
-    public static void enregistrerProduit(Produit p) {
+    public static boolean enregistrerProduit(Produit p) {
         
         
         try {
@@ -77,7 +77,7 @@ public class Produit {
 
             System.out.println("pstmt.toString() : " + pstmt.toString());
 
-            conn.commit(); // Manually commit the transaction
+     
         } catch (SQLException ex) {
             System.out.println("Problème d'ajout du nouveau produit");
             System.out.println(ex.getMessage());
