@@ -17,8 +17,11 @@ public class Produit {
     int idP;
     String nomP;
     String prixU;
+    String quantite;
+    int idC;
     
     
+}
    // public static boolean addProduct(Produit P){
     //    boolean res = false;
      //   int r = 0;
@@ -36,4 +39,4 @@ public class Produit {
     
 
     
-}
+

@@ -412,7 +412,14 @@ public class Admin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        
+       String nomProduit =  jTextField1.getText();
+       String prixUnitaire = jTextField2.getText();
+       int nbrUnites =  (Integer) jSpinner1.getValue();
+       String category = jComboBox1.getSelectedItem().toString();
+       
+       
+       Produit p = new Produit(nomProduit, prixUnitaire, nbrUnites, category);
+       boolean resAjt = Produit. ;
        
        
       
@@ -435,7 +442,7 @@ public class Admin extends javax.swing.JFrame {
 
         if (jTextField3.getText().isEmpty() || jTextField4.getText().isEmpty()) {
             // Show an error message
-            JOptionPane.showMessageDialog(this, "veuillez remplir tous les champs de la categorie", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "MOUK", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -465,7 +472,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
