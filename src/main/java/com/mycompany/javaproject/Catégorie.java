@@ -148,5 +148,7 @@ public class Catégorie {
             """.formatted(nom, description);
         }
     }
+    
+    
 
 }
