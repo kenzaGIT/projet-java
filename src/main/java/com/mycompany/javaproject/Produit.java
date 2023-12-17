@@ -99,33 +99,7 @@ public class Produit {
         this.idC = idC;
     }
     
-    public static LinkedList<Produit> getAllProducts(){
-        LinkedList<Produit> listeProduit = new   LinkedList<Produit>() ;
-        try{
-            java.sql.Connection conn = mySQL.getConnection();
-            String req = "SELECT * FROM produit";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(req);
-            
-            Produit c = null;
-            while(rs.next()){
-                String nomP = rs.getString(2);
-                float prixU = rs.getFloat(3);
-                int quantite = rs.getInt(3);
-                int idC = rs.getInt(4);
-                
-              Produit p = new Produit(nomP, prixU, quantite, idC);
-              listeProduit.add(p);
-            }
-            rs.close();
-            stmt.close();
-        }catch(SQLException e){
-            System.out.println("Problem fetching data");
-               
-                
-            }
-        return listeProduit;
-        }
+    
     
         
     public static boolean enregistrerProduit(Produit p){

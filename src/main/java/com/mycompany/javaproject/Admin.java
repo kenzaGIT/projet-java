@@ -730,17 +730,16 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        // TODO add your handling code here:
+       
 
         Object selectedItemObject = jComboBox2.getSelectedItem();
 
         if (selectedItemObject != null) {
-            // Check if the selected item is not null before attempting to convert it to a String
+            
             String selectedItem = selectedItemObject.toString();
             System.out.println(selectedItem);
 
-            // Now you can use the 'selectedItem' as a String
+   
             float revenue = Catégorie.venteGenererParCategory(selectedItem);
             if (revenue != 0) {
                 jLabel13.setText("" + revenue + " DH ");
