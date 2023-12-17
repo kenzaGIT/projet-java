@@ -28,7 +28,6 @@ public class Admin extends javax.swing.JFrame {
 //    this variable heps when i need to modify or delete category based on his id
     Catégorie GlobalCategorie = new Catégorie();
 
-  
     public Admin() {
         initComponents();
         this.refreshCategory();
@@ -361,6 +360,11 @@ public class Admin extends javax.swing.JFrame {
         jButton4.setForeground(new java.awt.Color(0, 102, 102));
         jButton4.setText("Generate revenue");
         jButton4.setToolTipText("");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Heiti TC", 1, 14)); // NOI18N
         jLabel10.setText("Category name");
@@ -414,15 +418,17 @@ public class Admin extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                                .addComponent(jTextField3))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                    .addComponent(jTextField3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton4))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jToggleButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton4))
+                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jToggleButton2)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -463,12 +469,17 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jButton4)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -486,9 +497,7 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addGap(28, 28, 28)
-                .addComponent(jButton4)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 61, Short.MAX_VALUE))
         );
 
         pack();
@@ -552,6 +561,8 @@ public class Admin extends javax.swing.JFrame {
         jTextField3.setText("");
         jTextField4.setText("");
         this.refreshCategory();
+        this.chargerjtable();
+
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -607,50 +618,50 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1MouseClicked
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-      try {
-        Connection conn = mySQL.getConnection();
-        int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow >= 0) {
-            int idP = Integer.parseInt(jTable1.getModel().getValueAt(selectedRow, 0).toString());
-           
-            String nomP = jTextField1.getText();
-            float prixU = Float.parseFloat(jTextField2.getText());
-            int quantite = (Integer) jSpinner1.getValue();
-            String nomCategorie = (String) jComboBox1.getSelectedItem();
-            
-            if (nomP.isEmpty() || prixU <= 0 || quantite <= 0) {
-                JOptionPane.showMessageDialog(this, "The fields are empty or the informations you entered are wrong", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            String sql = "SELECT idC FROM categorie WHERE nomC = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, nomCategorie);
+        try {
+            Connection conn = mySQL.getConnection();
+            int selectedRow = jTable1.getSelectedRow();
+            if (selectedRow >= 0) {
+                int idP = Integer.parseInt(jTable1.getModel().getValueAt(selectedRow, 0).toString());
 
-            ResultSet rs = pstmt.executeQuery();
+                String nomP = jTextField1.getText();
+                float prixU = Float.parseFloat(jTextField2.getText());
+                int quantite = (Integer) jSpinner1.getValue();
+                String nomCategorie = (String) jComboBox1.getSelectedItem();
 
-            int idC = 0;
-            if (rs.next()) {
-                idC = rs.getInt("idC");
-            }
+                if (nomP.isEmpty() || prixU <= 0 || quantite <= 0) {
+                    JOptionPane.showMessageDialog(this, "The fields are empty or the informations you entered are wrong", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            Produit p = new Produit(idP, nomP, prixU, quantite, idC);
+                String sql = "SELECT idC FROM categorie WHERE nomC = ?";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, nomCategorie);
 
-            boolean resMod = Produit.modifierProduit(p);
-            
-            if (resMod) {
-                chargerjtable(); 
-                JOptionPane.showMessageDialog(this, "Product updated successfully", "Produit modifié avec succès", JOptionPane.PLAIN_MESSAGE);
+                ResultSet rs = pstmt.executeQuery();
+
+                int idC = 0;
+                if (rs.next()) {
+                    idC = rs.getInt("idC");
+                }
+
+                Produit p = new Produit(idP, nomP, prixU, quantite, idC);
+
+                boolean resMod = Produit.modifierProduit(p);
+
+                if (resMod) {
+                    chargerjtable();
+                    JOptionPane.showMessageDialog(this, "Product updated successfully", "Produit modifié avec succès", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Product was not updated", "Produit non modifié", JOptionPane.PLAIN_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Product was not updated", "Produit non modifié", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please select a product to modify", "Sélectionnez un produit à modifier", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a product to modify", "Sélectionnez un produit à modifier", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException | SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
         }
-    } catch (NumberFormatException | SQLException ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
-    }
 
 
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -675,6 +686,36 @@ public class Admin extends javax.swing.JFrame {
 
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow >= 0) {
+            int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this product?", "Confirm", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
+                try {
+                    int idP = Integer.parseInt(jTable1.getModel().getValueAt(selectedRow, 0).toString());
+                    boolean resSup = Produit.supprimerProduit(idP);
+
+                    if (resSup) {
+                        chargerjtable();
+                        JOptionPane.showMessageDialog(this, "Product deleted successfully", "Produit supprimé avec succès", JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Product was not deleted", "Produit non supprimé", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a product to delete", "Sélectionnez un produit à supprimer", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
         // TODO add your handling code here:
 
         Object selectedItemObject = jComboBox2.getSelectedItem();
@@ -692,32 +733,7 @@ public class Admin extends javax.swing.JFrame {
                 jLabel13.setText("aucun revenue n 'est generer\npar cette categorie");
             }
         }
-    }//GEN-LAST:event_jComboBox2ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    int selectedRow = jTable1.getSelectedRow();
-    if (selectedRow >= 0) {
-        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this product?", "Confirm", JOptionPane.YES_NO_OPTION);
-        if (choice == JOptionPane.YES_OPTION) {
-            try {
-                int idP = Integer.parseInt(jTable1.getModel().getValueAt(selectedRow, 0).toString());
-                boolean resSup = Produit.supprimerProduit(idP); 
-
-                if (resSup) {
-                    chargerjtable(); 
-                    JOptionPane.showMessageDialog(this, "Product deleted successfully", "Produit supprimé avec succès", JOptionPane.PLAIN_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Product was not deleted", "Produit non supprimé", JOptionPane.PLAIN_MESSAGE);
-                }
-            } catch (NumberFormatException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Please select a product to delete", "Sélectionnez un produit à supprimer", JOptionPane.ERROR_MESSAGE);
-    }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
