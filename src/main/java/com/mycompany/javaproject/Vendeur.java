@@ -136,7 +136,7 @@ public class Vendeur extends javax.swing.JFrame {
                        // Close the resources
                      statement.close();
                      JOptionPane.showMessageDialog(this, " \"Sale added to the database successfully!\".");
-                     jTextField1.setText(" ");
+                     jTextField1.setText("");
                      jSpinner1.setValue(0);
                     
             }
