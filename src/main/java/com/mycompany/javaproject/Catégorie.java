@@ -8,6 +8,7 @@ import com.mysql.cj.xdevapi.PreparableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
@@ -138,7 +139,7 @@ public class Catégorie {
         try {
             Connection conn = mySQL.getConnection();
             conn.setAutoCommit(true);
-            String SQL = "SELECT * from produit NATURAL JOIN categorie WHERE nomC = ?";
+            String SQL = "SELECT * from vente NATURAL JOIN produit NATURAL JOIN categorie WHERE nomC = ?";
 
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(SQL);
 
@@ -155,16 +156,16 @@ public class Catégorie {
             while (rs.next()) {
                 int idC = rs.getInt(1);
                 int idP = rs.getInt(2);
-                String nomP = rs.getString(3);
-                float prixU = rs.getFloat(4);
-                int quantite = rs.getInt(5);
-
-                String nomC = rs.getString(6);
-                String decription = rs.getString(7);
-
+                String nomP = rs.getString(6);
+                float prixU = rs.getFloat(7);
+                int quantite = rs.getInt(8);
+                int quantiteVendue = rs.getInt(5);
+//                String nomC = rs.getString(9);
+////             String decription = rs.getString(10);
+//
                 p = new Produit(idP, nomP, prixU, quantite, idC);
                 listProduit.add(p);
-                revenuParCategory += prixU * quantite;
+                revenuParCategory += prixU * quantiteVendue;
             }
 
             System.out.println(revenuParCategory);
