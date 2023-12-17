@@ -27,8 +27,8 @@ public class Admin extends javax.swing.JFrame {
      */
 //    this variable heps when i need to modify or delete category based on his id
     Catégorie GlobalCategorie = new Catégorie();
-    
-   Produit GlobalProduit = new Produit();
+
+    Produit GlobalProduit = new Produit();
 
     public Admin() {
         initComponents();
@@ -48,26 +48,27 @@ public class Admin extends javax.swing.JFrame {
             Object[] rowData = {category.id, category.nom, category.description}; // Replace getField1() and getField2() with actual getters
             model.addRow(rowData);
         }
-       
+
     }
-    
-    public void listerCatégorie1(){
-    
-     jComboBox1.removeAllItems();
+
+    public void listerCatégorie1() {
+
+        jComboBox1.removeAllItems();
         LinkedList<Catégorie> categories = Catégorie.getCategory();
+
         for (Catégorie category : categories) {
-            
+
             Catégorie categoryItem = new Catégorie(category.id, category.nom, category.description);
 
-            
             jComboBox1.addItem(categoryItem.nom);
         }
-}
+    }
 
     public void listerCatégorie2() {
 
         jComboBox2.removeAllItems();
         LinkedList<Catégorie> categories = Catégorie.getCategory();
+        jComboBox2.addItem(" ");
         for (Catégorie category : categories) {
             // Create an instance of your custom class with id, name, and description
             Catégorie categoryItem = new Catégorie(category.id, category.nom, category.description);
@@ -76,26 +77,26 @@ public class Admin extends javax.swing.JFrame {
             jComboBox2.addItem(categoryItem.nom);
         }
     }
-    
+
     public void chargerjtable() {
-    try {
-        Connection conn = mySQL.getConnection(); 
-        String sql = "SELECT * FROM produit";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
+        try {
+            Connection conn = mySQL.getConnection();
+            String sql = "SELECT * FROM produit";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
 
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
 
-        while (rs.next()) {
-            model.addRow(new Object[]{rs.getInt("idP"), rs.getString("nomP"), rs.getFloat("prixU"), rs.getInt("quantite"), rs.getInt("idC")});
+            while (rs.next()) {
+                model.addRow(new Object[]{rs.getInt("idP"), rs.getString("nomP"), rs.getFloat("prixU"), rs.getInt("quantite"), rs.getInt("idC")});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
+
     }
-    
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -133,13 +134,13 @@ public class Admin extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
         jSeparator1 = new javax.swing.JSeparator();
         jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -360,12 +361,6 @@ public class Admin extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Heiti TC", 1, 14)); // NOI18N
         jLabel10.setText("Category name");
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
-
         jLabel12.setText("Date 2");
 
         jLabel11.setText("Date 1");
@@ -397,6 +392,9 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel13.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -411,25 +409,28 @@ public class Admin extends javax.swing.JFrame {
                     .addComponent(jLabel11))
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                        .addComponent(jTextField3))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jToggleButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jToggleButton2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                .addComponent(jTextField3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jToggleButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton4))
+                                .addGap(18, 18, 18)
+                                .addComponent(jToggleButton2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addGap(305, 305, 305))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addGap(305, 305, 305))
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -476,15 +477,14 @@ public class Admin extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jToggleButton1))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel10)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addGap(28, 28, 28)
                 .addComponent(jButton4)
-                .addGap(0, 58, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -497,7 +497,7 @@ public class Admin extends javax.swing.JFrame {
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
- 
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
 
@@ -527,7 +527,6 @@ public class Admin extends javax.swing.JFrame {
 
             boolean resAjt = Produit.enregistrerProduit(p);
 
-           
             if (resAjt) {
                 chargerjtable();
                 JOptionPane.showMessageDialog(this, "Product added with success", "Produit ajouté avec succès", JOptionPane.PLAIN_MESSAGE);
@@ -535,16 +534,12 @@ public class Admin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Product was not added", "Produit non ajouté", JOptionPane.PLAIN_MESSAGE);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();  
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
         }
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
 
@@ -608,8 +603,8 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1MouseClicked
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-     
-       
+
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
@@ -642,7 +637,12 @@ public class Admin extends javax.swing.JFrame {
             System.out.println(selectedItem);
 
             // Now you can use the 'selectedItem' as a String
-             Catégorie.venteGenererParCategory(selectedItem);
+            float revenue = Catégorie.venteGenererParCategory(selectedItem);
+            if (revenue != 0) {
+                jLabel13.setText("" + revenue + " DH ");
+            } else {
+                jLabel13.setText("aucun revenue n 'est generer\npar cette categorie");
+            }
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
@@ -702,6 +702,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -721,7 +722,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables

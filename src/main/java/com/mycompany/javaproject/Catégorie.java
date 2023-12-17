@@ -135,7 +135,7 @@ public class Catégorie {
         }
     }
 
-    public static void venteGenererParCategory(String nomCategory) {
+    public static float venteGenererParCategory(String nomCategory) {
         try {
             Connection conn = mySQL.getConnection();
             conn.setAutoCommit(true);
@@ -169,9 +169,11 @@ public class Catégorie {
             }
 
             System.out.println(revenuParCategory);
+            return revenuParCategory;
         } catch (SQLException ex) {
             System.out.println("Erreur vente generer par category");
             System.err.println(ex.getMessage());
+            return 0;
         }
     }
 
