@@ -3,6 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.javaproject;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -112,8 +118,33 @@ public class Vendeur extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void AjouterVenteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterVenteButtonActionPerformed
+        String nomP= jTextField1.getText();
+        int quantiteVendue= (int) jSpinner1.getValue();
         
-        
+        try {
+            Connection conn = mySQL.getConnection();
+            conn.setAutoCommit(true); // Set auto-commit to false
+            
+            int idPValue = ClasseVendeur.retrieveIdP( nomP, conn);
+
+            String SQL = "INSERT INTO vente (idP ,quantiteVendue,dateVente) VALUES (?, ?, ?)";
+            try(PreparedStatement statement = conn.prepareStatement(SQL)){
+                     statement.setInt(1, idPValue);
+                     statement.setInt(2, quantiteVendue);
+                     statement.setTimestamp(3, new Timestamp(new Date().getTime()));
+                     statement.executeUpdate();
+                       // Close the resources
+                     statement.close();
+                     JOptionPane.showMessageDialog(this, " \"Sale added to the database successfully!\".");
+                     jTextField1.setText(" ");
+                     jSpinner1.setValue(0);
+                    
+            }
+        }catch (SQLException ex) {
+             ex.printStackTrace();
+             System.out.println(ex.getMessage());
+             JOptionPane.showMessageDialog(this, "Error connectings to the database.");
+        }      
     }//GEN-LAST:event_AjouterVenteButtonActionPerformed
 
     /**
@@ -150,6 +181,10 @@ public class Vendeur extends javax.swing.JFrame {
             }
         });
     }
+
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AjouterVenteButton;
