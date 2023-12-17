@@ -27,21 +27,15 @@ public class Admin extends javax.swing.JFrame {
      */
 //    this variable heps when i need to modify or delete category based on his id
     Catégorie GlobalCategorie = new Catégorie();
+    
+   Produit GlobalProduit = new Produit();
 
     public Admin() {
         initComponents();
         this.refreshCategory();
-        jComboBox1.removeAllItems();
-        LinkedList<Catégorie> categories = Catégorie.getCategory();
-        for (Catégorie category : categories) {
-            // Create an instance of your custom class with id, name, and description
-            Catégorie categoryItem = new Catégorie(category.id, category.nom, category.description);
-
-            // Add the instance to the JComboBox
-            jComboBox1.addItem(categoryItem.nom);
-        }
-
-        this.ComboBoxInit();
+        this.listerCatégorie1();
+        this.listerCatégorie2();
+        this.chargerjtable();
 
     }
 
@@ -54,10 +48,23 @@ public class Admin extends javax.swing.JFrame {
             Object[] rowData = {category.id, category.nom, category.description}; // Replace getField1() and getField2() with actual getters
             model.addRow(rowData);
         }
-        //  Create button column
+       
     }
+    
+    public void listerCatégorie1(){
+    
+     jComboBox1.removeAllItems();
+        LinkedList<Catégorie> categories = Catégorie.getCategory();
+        for (Catégorie category : categories) {
+            
+            Catégorie categoryItem = new Catégorie(category.id, category.nom, category.description);
 
-    public void ComboBoxInit() {
+            
+            jComboBox1.addItem(categoryItem.nom);
+        }
+}
+
+    public void listerCatégorie2() {
 
         jComboBox2.removeAllItems();
         LinkedList<Catégorie> categories = Catégorie.getCategory();
@@ -69,6 +76,26 @@ public class Admin extends javax.swing.JFrame {
             jComboBox2.addItem(categoryItem.nom);
         }
     }
+    
+    public void chargerjtable() {
+    try {
+        Connection conn = mySQL.getConnection(); 
+        String sql = "SELECT * FROM produit";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{rs.getInt("idP"), rs.getString("nomP"), rs.getFloat("prixU"), rs.getInt("quantite"), rs.getInt("idC")});
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
+    }
+    
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -470,7 +497,7 @@ public class Admin extends javax.swing.JFrame {
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
-
+ 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
 
@@ -500,14 +527,15 @@ public class Admin extends javax.swing.JFrame {
 
             boolean resAjt = Produit.enregistrerProduit(p);
 
-            System.out.println("+++LOIJUHGFGTYHUJIOLK?N BVC" + resAjt);
+           
             if (resAjt) {
+                chargerjtable();
                 JOptionPane.showMessageDialog(this, "Product added with success", "Produit ajouté avec succès", JOptionPane.PLAIN_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Product was not added", "Produit non ajouté", JOptionPane.PLAIN_MESSAGE);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();  // Ceci affichera le message d'erreur complet et le stack trace dans la console
+            ex.printStackTrace();  
             JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -580,7 +608,8 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1MouseClicked
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+     
+        
 
 
     }//GEN-LAST:event_jButton6ActionPerformed
