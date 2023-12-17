@@ -28,8 +28,7 @@ public class Admin extends javax.swing.JFrame {
 //    this variable heps when i need to modify or delete category based on his id
     Catégorie GlobalCategorie = new Catégorie();
 
-    Produit GlobalProduit = new Produit();
-
+  
     public Admin() {
         initComponents();
         this.refreshCategory();
@@ -215,6 +214,11 @@ public class Admin extends javax.swing.JFrame {
         jButton5.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 0, 51));
         jButton5.setText("Delete product");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(0, 102, 102));
@@ -689,6 +693,31 @@ public class Admin extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    int selectedRow = jTable1.getSelectedRow();
+    if (selectedRow >= 0) {
+        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this product?", "Confirm", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            try {
+                int idP = Integer.parseInt(jTable1.getModel().getValueAt(selectedRow, 0).toString());
+                boolean resSup = Produit.supprimerProduit(idP); 
+
+                if (resSup) {
+                    chargerjtable(); 
+                    JOptionPane.showMessageDialog(this, "Product deleted successfully", "Produit supprimé avec succès", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Product was not deleted", "Produit non supprimé", JOptionPane.PLAIN_MESSAGE);
+                }
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Please select a product to delete", "Sélectionnez un produit à supprimer", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

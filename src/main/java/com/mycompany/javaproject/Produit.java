@@ -184,6 +184,32 @@ public class Produit {
         
         return res;
     }
+    
+    public static boolean supprimerProduit(int idP){
+        boolean res = false;
+        try {
+            Connection conn = mySQL.getConnection();
+            
+            String sql = "DELETE FROM produit WHERE idP = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            
+            pstmt.setInt(1, idP);
+            
+            System.out.println("HEEELLOOOOOO  " + pstmt);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 1)
+                res = true;
+                
+        } catch (SQLException ex) {
+            System.out.print("Problème de suppression du produit ");
+            System.out.println(ex.getMessage());
+        }
+        
+        return res;
+    }
+        
+    }
   
     
    
@@ -196,7 +222,7 @@ public class Produit {
 
 
 
-}
+
   
     
 
