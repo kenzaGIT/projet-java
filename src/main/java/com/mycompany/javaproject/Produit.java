@@ -10,15 +10,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 
 
 public class Produit {
     private int idP;
-    private String nomP;
-    private float prixU;
-    private int quantite;
-    private int idC;
+    String nomP;
+    float prixU;
+    int quantite;
+    String nomC;
+    int idC;
 
      public Produit(int idP,String nomP, float prixU, int quantite, int idC) {
          this.idP = idP;
@@ -27,12 +31,23 @@ public class Produit {
          this.quantite = quantite;
          this.idC = idC;
     }
-    public Produit(String nomP, float prixU, int quantite, int idC) {
+      public Produit(String nomP, float prixU, int quantite, int idC) {
          this.nomP = nomP;
          this.prixU= prixU;
          this.quantite = quantite;
          this.idC = idC;
     }
+    public Produit(String nomP, float prixU, int quantite, String nomC,int idC) {
+         this.nomP = nomP;
+         this.prixU= prixU;
+         this.quantite = quantite;
+         this.nomC = nomC;
+         this.idC = idC;
+    }
+    
+    public Produit(){
+    
+}
     
      public int getId() {
         return idP;
@@ -50,6 +65,11 @@ public class Produit {
     public int getQuantite() {
         return quantite;
     }
+    
+     public String getnomCategorie() {
+        return nomC;
+    }
+
 
     public int getIdC() {
         return idC;
@@ -83,8 +103,6 @@ public class Produit {
         return listeProduit;
         }
     
-    
-
         
     public static boolean enregistrerProduit(Produit p){
         boolean res = false;
@@ -115,6 +133,28 @@ public class Produit {
         
         return res;
     }
+    
+    public static boolean modifierProduit(Produit p) {
+        try {
+            Connection conn = mySQL.getConnection();
+            String sql = "UPDATE produit SET nomP = ?, prixU = ?, quantite = ? WHERE idC = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, p.nomP);
+            pstmt.setFloat(2, p.prixU);
+            pstmt.setInt(3, p.quantite);
+            pstmt.setInt(4, p.idC);
+
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+  
+    
+   
 
             
         
