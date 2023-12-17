@@ -71,8 +71,32 @@ public class Produit {
     }
 
 
-    public int getIdC() {
-        return idC;
+    public void idP(int idP) {
+        this.idP= idP;
+    }
+    
+    
+    
+      public void nomP(String nomP) {
+        this.nomP= nomP;
+    }
+     
+      public void prixU(float prixU) {
+        this.prixU= prixU;
+    }
+
+
+    public void  quantite(int quantite) {
+        this.quantite= quantite;
+    }
+    
+     public void nomC(String nomC) {
+        this.nomC = nomC;
+    }
+
+
+    public void idC( int idC) {
+        this.idC = idC;
     }
     
     public static LinkedList<Produit> getAllProducts(){
@@ -135,22 +159,30 @@ public class Produit {
     }
     
     public static boolean modifierProduit(Produit p) {
+        boolean res = false;
         try {
             Connection conn = mySQL.getConnection();
-            String sql = "UPDATE produit SET nomP = ?, prixU = ?, quantite = ? WHERE idC = ?";
+            String sql = "UPDATE produit SET nomP = ?, prixU = ?, quantite = ?, idC = ? WHERE idP = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, p.nomP);
             pstmt.setFloat(2, p.prixU);
             pstmt.setInt(3, p.quantite);
             pstmt.setInt(4, p.idC);
+            pstmt.setInt(5, p.idP);
+            
+          
 
             int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
+           if (affectedRows == 1)
+                res = true;
+                
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
+            System.out.print("Problème de modification du produit ");
+            System.out.println(ex.getMessage());
         }
+        
+        return res;
     }
   
     

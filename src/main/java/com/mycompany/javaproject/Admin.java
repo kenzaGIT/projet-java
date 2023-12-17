@@ -603,6 +603,45 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1MouseClicked
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+      try {
+        Connection conn = mySQL.getConnection();
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow >= 0) {
+            int idP = Integer.parseInt(jTable1.getModel().getValueAt(selectedRow, 0).toString());
+           
+            String nomP = jTextField1.getText();
+            float prixU = Float.parseFloat(jTextField2.getText());
+            int quantite = (Integer) jSpinner1.getValue();
+            String nomCategorie = (String) jComboBox1.getSelectedItem();
+
+            String sql = "SELECT idC FROM categorie WHERE nomC = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nomCategorie);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            int idC = 0;
+            if (rs.next()) {
+                idC = rs.getInt("idC");
+            }
+
+            Produit p = new Produit(idP, nomP, prixU, quantite, idC);
+
+            boolean resMod = Produit.modifierProduit(p);
+            
+            if (resMod) {
+                chargerjtable(); 
+                JOptionPane.showMessageDialog(this, "Product updated successfully", "Produit modifié avec succès", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Product was not updated", "Produit non modifié", JOptionPane.PLAIN_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a product to modify", "Sélectionnez un produit à modifier", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (NumberFormatException | SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
+    }
 
 
     }//GEN-LAST:event_jButton6ActionPerformed
