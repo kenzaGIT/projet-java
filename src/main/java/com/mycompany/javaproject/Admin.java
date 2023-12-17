@@ -41,6 +41,8 @@ public class Admin extends javax.swing.JFrame {
             jComboBox1.addItem(categoryItem.nom);
         }
 
+        this.ComboBoxInit();
+
     }
 
     public void refreshCategory() {
@@ -470,53 +472,46 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    try {
-    
-    Connection conn = mySQL.getConnection();
-    String nomP = jTextField1.getText();
-    float prixU = Float.parseFloat(jTextField2.getText());
-    int quantite = (Integer) jSpinner1.getValue();
-    String nomCategorie = (String) jComboBox1.getSelectedItem();
+        try {
 
- 
-    if (nomP.isEmpty() || prixU <= 0 || quantite <= 0) {
-        JOptionPane.showMessageDialog(this, "The fields are empty or the informations you entered are wrong", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+            Connection conn = mySQL.getConnection();
+            String nomP = jTextField1.getText();
+            float prixU = Float.parseFloat(jTextField2.getText());
+            int quantite = (Integer) jSpinner1.getValue();
+            String nomCategorie = (String) jComboBox1.getSelectedItem();
 
-   
-    String sql = "SELECT idC FROM categorie WHERE nomC = ?";
-    PreparedStatement pstmt = conn.prepareStatement(sql);
-    pstmt.setString(1, nomCategorie);
-    
-   
-    ResultSet rs = pstmt.executeQuery();
+            if (nomP.isEmpty() || prixU <= 0 || quantite <= 0) {
+                JOptionPane.showMessageDialog(this, "The fields are empty or the informations you entered are wrong", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-    
-    int idC = 0;
-    if (rs.next()) {
-        idC = rs.getInt("idC");
-    }
+            String sql = "SELECT idC FROM categorie WHERE nomC = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nomCategorie);
 
-   
-    Produit p = new Produit(nomP, prixU, quantite, idC);
+            ResultSet rs = pstmt.executeQuery();
 
- 
-    boolean resAjt = Produit.enregistrerProduit(p);
+            int idC = 0;
+            if (rs.next()) {
+                idC = rs.getInt("idC");
+            }
 
-   System.out.println("+++LOIJUHGFGTYHUJIOLK?N BVC"+resAjt);
-    if (resAjt) {
-        JOptionPane.showMessageDialog(this, "Product added with success", "Produit ajouté avec succès", JOptionPane.PLAIN_MESSAGE);
-    } else {
-        JOptionPane.showMessageDialog(this, "Product was not added", "Produit non ajouté", JOptionPane.PLAIN_MESSAGE);
-    }
-}   catch (SQLException ex) {
-    ex.printStackTrace();  // Ceci affichera le message d'erreur complet et le stack trace dans la console
-    JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
-}
+            Produit p = new Produit(nomP, prixU, quantite, idC);
+
+            boolean resAjt = Produit.enregistrerProduit(p);
+
+            System.out.println("+++LOIJUHGFGTYHUJIOLK?N BVC" + resAjt);
+            if (resAjt) {
+                JOptionPane.showMessageDialog(this, "Product added with success", "Produit ajouté avec succès", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Product was not added", "Produit non ajouté", JOptionPane.PLAIN_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();  // Ceci affichera le message d'erreur complet et le stack trace dans la console
+            JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Erreur de base de données", JOptionPane.ERROR_MESSAGE);
+        }
 
 
-       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -612,9 +607,16 @@ public class Admin extends javax.swing.JFrame {
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
 
-        System.out.println(jComboBox2.getSelectedItem());
+        Object selectedItemObject = jComboBox2.getSelectedItem();
 
+        if (selectedItemObject != null) {
+            // Check if the selected item is not null before attempting to convert it to a String
+            String selectedItem = selectedItemObject.toString();
+            System.out.println(selectedItem);
 
+            // Now you can use the 'selectedItem' as a String
+             Catégorie.venteGenererParCategory(selectedItem);
+        }
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     /**

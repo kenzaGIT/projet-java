@@ -99,7 +99,7 @@ public class Catégorie {
         try {
             Connection conn = mySQL.getConnection();
             conn.setAutoCommit(false); // Set auto-commit to false
-            
+
             String SQL = "UPDATE categorie SET nomC = ?, description = ? WHERE idC = ?";
 
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(SQL);
@@ -134,6 +134,46 @@ public class Catégorie {
         }
     }
 
+    public static void venteGenererParCategory(String nomCategory) {
+        try {
+            Connection conn = mySQL.getConnection();
+            conn.setAutoCommit(true);
+            String SQL = "SELECT * from produit NATURAL JOIN categorie WHERE nomC = ?";
+
+            PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(SQL);
+
+            pstmt.setString(1, nomCategory);
+
+            ResultSet rs = pstmt.executeQuery();
+            Catégorie c = null;
+            Produit p = null;
+            LinkedList<Catégorie> listCategory = new LinkedList<Catégorie>();
+            LinkedList<Produit> listProduit = new LinkedList<Produit>();
+
+            float revenuParCategory = 0;
+
+            while (rs.next()) {
+                int idC = rs.getInt(1);
+                int idP = rs.getInt(2);
+                String nomP = rs.getString(3);
+                float prixU = rs.getFloat(4);
+                int quantite = rs.getInt(5);
+
+                String nomC = rs.getString(6);
+                String decription = rs.getString(7);
+
+                p = new Produit(idP, nomP, prixU, quantite, idC);
+                listProduit.add(p);
+                revenuParCategory += prixU * quantite;
+            }
+
+            System.out.println(revenuParCategory);
+        } catch (SQLException ex) {
+            System.out.println("Erreur vente generer par category");
+            System.err.println(ex.getMessage());
+        }
+    }
+
     public String toString() {
         if (id != 0) {
             return """
@@ -148,7 +188,5 @@ public class Catégorie {
             """.formatted(nom, description);
         }
     }
-    
-    
 
 }
