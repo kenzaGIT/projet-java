@@ -147,8 +147,8 @@ public class LoginForm extends javax.swing.JFrame {
                           // User is a vendeur, navigate to VendeurForm
                           this.dispose(); // Close the current login form
                           
-                        // Vendeur vendeurForm = new Vendeur(); // Replace with the actual class name
-                        // vendeurForm.setVisible(true);
+                          Vendeur vendeurForm = new Vendeur(); // Replace with the actual class name
+                          vendeurForm.setVisible(true);
                         }
                         else if(user == 1){
                           this.dispose(); // Close the current login form
@@ -167,7 +167,7 @@ public class LoginForm extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
-            JOptionPane.showMessageDialog(this, "Error c to the database.");
+            JOptionPane.showMessageDialog(this, "Error connectings to the database.");
         }
     }//GEN-LAST:event_ConnexionButtonActionPerformed
 
