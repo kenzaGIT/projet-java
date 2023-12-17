@@ -613,7 +613,12 @@ public class Admin extends javax.swing.JFrame {
             float prixU = Float.parseFloat(jTextField2.getText());
             int quantite = (Integer) jSpinner1.getValue();
             String nomCategorie = (String) jComboBox1.getSelectedItem();
-
+            
+            if (nomP.isEmpty() || prixU <= 0 || quantite <= 0) {
+                JOptionPane.showMessageDialog(this, "The fields are empty or the informations you entered are wrong", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             String sql = "SELECT idC FROM categorie WHERE nomC = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, nomCategorie);
