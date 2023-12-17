@@ -355,13 +355,13 @@ public class Admin extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "IdCategory", " Category name", "Description", "Action"
+                "IdCategory", " Category name", "Description"
             }
         ));
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
