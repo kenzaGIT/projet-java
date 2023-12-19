@@ -100,7 +100,7 @@ public class Admin extends javax.swing.JFrame {
      public void chargerjtable2() {
         try {
             Connection conn = mySQL.getConnection();
-            String sql = "SELECT * FROM vente";
+            String sql = "SELECT * FROM vente Natural join produit ";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
 
@@ -108,7 +108,7 @@ public class Admin extends javax.swing.JFrame {
             model.setRowCount(0);
 
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getInt("idVente"), rs.getInt("idP"), rs.getDate("dateVente"), rs.getInt("quantiteVendue")});
+                model.addRow(new Object[]{rs.getInt("idVente"), rs.getString("nomP"), rs.getDate("dateVente"), rs.getInt("quantiteVendue")});
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
