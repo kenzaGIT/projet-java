@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.javaproject;
+
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,6 +38,7 @@ public class LoginForm extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
         ConnexionButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,29 +70,38 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Page de connexion");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addGap(44, 44, 44)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(305, Short.MAX_VALUE)
                 .addComponent(ConnexionButton)
                 .addGap(290, 290, 290))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(221, 221, 221)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(141, 141, 141)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -125,45 +136,42 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void ConnexionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnexionButtonActionPerformed
 
-       String username= jTextField1.getText();
-       char[] passwordChars= jPasswordField1.getPassword();
-       String password = new String(passwordChars);
-       
-       try {
+        String username = jTextField1.getText();
+        char[] passwordChars = jPasswordField1.getPassword();
+        String password = new String(passwordChars);
+
+        try {
             Connection conn = mySQL.getConnection();
             conn.setAutoCommit(false); // Set auto-commit to false
 
             String SQL = "SELECT username,password,user from connexion where username= ? and password= ?";
-            try(PreparedStatement preparedStatement = conn.prepareStatement(SQL)){
-                     preparedStatement.setString(1, username);
-                     preparedStatement.setString(2, password);
-                     ResultSet resultSet = preparedStatement.executeQuery();
+            try (PreparedStatement preparedStatement = conn.prepareStatement(SQL)) {
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);
+                ResultSet resultSet = preparedStatement.executeQuery();
 
-                    if (resultSet.next()) {
-                        JOptionPane.showMessageDialog(this, "Login Successful!");
-                        int user = resultSet.getInt("user");
-                      //  System.out.println(user);
-                        if (user == 0) {
-                          // User is a vendeur, navigate to VendeurForm
-                          this.dispose(); // Close the current login form
-                          
-                          Vendeur vendeurForm = new Vendeur(); // Replace with the actual class name
-                          vendeurForm.setVisible(true);
-                        }
-                        else if(user == 1){
-                          this.dispose(); // Close the current login form
-                          Admin adminForm = new Admin(); // Replace with the actual class name
-                          adminForm.setVisible(true);
-                        }
-                        else{
-                          JOptionPane.showMessageDialog(this, "Unknown user type. Please contact support.");
-                        }
-             
+                if (resultSet.next()) {
+                    int user = resultSet.getInt("user");
+                    //  System.out.println(user);
+                    if (user == 0) {
+                        // User is a vendeur, navigate to VendeurForm
+                        this.dispose(); // Close the current login form
+
+                        Vendeur vendeurForm = new Vendeur(); // Replace with the actual class name
+                        vendeurForm.setVisible(true);
+                    } else if (user == 1) {
+                        this.dispose(); // Close the current login form
+                        Admin adminForm = new Admin(); // Replace with the actual class name
+                        adminForm.setVisible(true);
                     } else {
+                        JOptionPane.showMessageDialog(this, "Unknown user type. Please contact support.");
+                    }
+
+                } else {
                     // User not found, login failed
                     JOptionPane.showMessageDialog(this, "Invalid username or password. Please try again.");
-                    }
-            } 
+                }
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
@@ -218,9 +226,9 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JButton ConnexionButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
-
