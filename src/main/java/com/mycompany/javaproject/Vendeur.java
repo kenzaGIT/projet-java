@@ -33,26 +33,28 @@ public class Vendeur extends javax.swing.JFrame {
     }
 
     public void limitJspinner(String targetNomP) {
-        jSpinner1.setVisible(true);
+        if (targetNomP != "") {
+
+            jSpinner1.setVisible(true);
+        }
 
         LinkedList<Produit> produits = ClasseVendeur.getProducts();
 
-        int index = -1;  // Initialize index to -1, indicating not found
+        int index = -1;
 
         for (int i = 0; i < produits.size(); i++) {
             if (produits.get(i).getNomP().equals(targetNomP)) {
-                index = produits.get(i).quantite;  // Set the index when the target is found
+                index = produits.get(i).quantite;
 
-                break;      // No need to continue searching
+                break;
             }
         }
 
         if (index != -1) {
             System.out.println("Index of produit with nomP 'hello': " + index);
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, index, 1));
+            jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, index, 1));
         } else {
         }
-
 
     }
 
@@ -76,7 +78,6 @@ public class Vendeur extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jSpinner1 = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
         AjouterVenteButton = new javax.swing.JButton();
@@ -89,12 +90,6 @@ public class Vendeur extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Quantité vendue :");
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
 
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel());
         jSpinner1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -140,28 +135,16 @@ public class Vendeur extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(208, 208, 208)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(AjouterVenteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(22, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addComponent(AjouterVenteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)))
+                .addGap(38, 38, 38)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -176,10 +159,6 @@ public class Vendeur extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void AjouterVenteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterVenteButtonActionPerformed
 
@@ -197,7 +176,7 @@ public class Vendeur extends javax.swing.JFrame {
 
         try {
             Connection conn = mySQL.getConnection();
-            conn.setAutoCommit(true); // Set auto-commit to false
+            conn.setAutoCommit(true);
 
             int idPValue = ClasseVendeur.retrieveIdP(nomP, conn);
             int quantiteValue = ClasseVendeur.retrieveQuantite(nomP, conn);
@@ -220,7 +199,6 @@ public class Vendeur extends javax.swing.JFrame {
                     // Close the resources
                     statement.close();
                     JOptionPane.showMessageDialog(this, " \"Sale added to the database successfully!\".");
-                    jTextField1.setText("");
                     jSpinner1.setValue(0);
 
                 }
@@ -295,6 +273,5 @@ public class Vendeur extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
