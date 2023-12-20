@@ -108,7 +108,7 @@ public class Admin extends javax.swing.JFrame {
             model.setRowCount(0);
 
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getInt("idVente"), rs.getString("nomP"), rs.getDate("dateVente"), rs.getInt("quantiteVendue")});
+                model.addRow(new Object[]{rs.getInt("idVente"), rs.getString("idP"), rs.getDate("dateVente"), rs.getInt("quantiteVendue")});
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

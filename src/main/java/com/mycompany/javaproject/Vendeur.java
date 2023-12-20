@@ -58,6 +58,33 @@ public class Vendeur extends javax.swing.JFrame {
 
     }
 
+    public float getProductPrice(String targetNomP) {
+        if (targetNomP != "") {
+
+            jSpinner1.setVisible(true);
+        }
+
+        LinkedList<Produit> produits = ClasseVendeur.getProducts();
+
+        float index = -1;
+
+        for (int i = 0; i < produits.size(); i++) {
+            if (produits.get(i).getNomP().equals(targetNomP)) {
+                index = produits.get(i).prixU;
+
+                break;
+            }
+        }
+
+        if (index != -1) {
+            return index;
+        } else {
+            return index;
+
+        }
+
+    }
+
     public void initCombobox() {
         jComboBox1.removeAllItems();
         LinkedList<Produit> produit = ClasseVendeur.getProducts();
@@ -182,11 +209,15 @@ public class Vendeur extends javax.swing.JFrame {
             int quantiteValue = ClasseVendeur.retrieveQuantite(nomP, conn);
 
             if (quantiteVendue < quantiteValue) {
-                String SQL = "INSERT INTO vente (idP ,quantiteVendue,dateVente) VALUES (?, ?, ?)";
+                String SQL = "INSERT INTO vente (idP ,quantiteVendue,dateVente,prixVente, prixU) VALUES (?, ?, ?,?,?)";
                 try (PreparedStatement statement = conn.prepareStatement(SQL)) {
                     statement.setInt(1, idPValue);
                     statement.setInt(2, quantiteVendue);
                     statement.setTimestamp(3, new Timestamp(new Date().getTime()));
+
+                    statement.setFloat(4, getProductPrice(nomP) * quantiteValue);
+                    statement.setFloat(5, getProductPrice(nomP));
+
                     statement.executeUpdate();
 
                     SQL = "UPDATE produit SET quantite = CASE WHEN quantite>0 THEN (quantite - ?) ELSE quantite END WHERE idP = ?";
