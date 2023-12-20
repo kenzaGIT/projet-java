@@ -71,7 +71,6 @@ public class Vendeur extends javax.swing.JFrame {
         for (int i = 0; i < produits.size(); i++) {
             if (produits.get(i).getNomP().equals(targetNomP)) {
                 index = produits.get(i).prixU;
-
                 break;
             }
         }
@@ -214,7 +213,7 @@ public class Vendeur extends javax.swing.JFrame {
                     statement.setInt(1, idPValue);
                     statement.setInt(2, quantiteVendue);
                     statement.setTimestamp(3, new Timestamp(new Date().getTime()));
-
+                    System.out.println(+getProductPrice(nomP) * +quantiteValue);
                     statement.setFloat(4, getProductPrice(nomP) * quantiteValue);
                     statement.setFloat(5, getProductPrice(nomP));
 
