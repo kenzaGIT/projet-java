@@ -213,8 +213,8 @@ public class Vendeur extends javax.swing.JFrame {
                     statement.setInt(1, idPValue);
                     statement.setInt(2, quantiteVendue);
                     statement.setTimestamp(3, new Timestamp(new Date().getTime()));
-                    System.out.println(+getProductPrice(nomP) * +quantiteValue);
-                    statement.setFloat(4, getProductPrice(nomP) * quantiteValue);
+                    System.out.println(+getProductPrice(nomP) * +quantiteVendue);
+                    statement.setFloat(4, +getProductPrice(nomP) * +quantiteVendue);
                     statement.setFloat(5, getProductPrice(nomP));
 
                     statement.executeUpdate();
