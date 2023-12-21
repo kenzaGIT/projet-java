@@ -32,7 +32,6 @@ public class ClasseVendeur {
         this.idVente = idVente;
         this.idP = idP;
         this.quantiteVendue = quantiteVendue;
-        // Enregistre automatiquement la date actuelle lors de la création de l'objet
         this.dateVente = LocalDateTime.now();
     }
 
@@ -53,7 +52,7 @@ public class ClasseVendeur {
     }
 
     public static int retrieveIdP(String nomP, Connection conn) throws SQLException {
-        int idP = -1; // Default value if the product is not found or an error occurs
+        int idP = -1; 
 
         String sql = "SELECT idP FROM produit WHERE nomP = ?";
 
@@ -115,13 +114,13 @@ public class ClasseVendeur {
             }
 
             if (p == null) {
-                System.out.println("Categorie introuvable");
+                System.out.println("Unfound Product");
             }
 
             return listProduit;
 
         } catch (SQLException ex) {
-            System.out.println("Erreur Base de Données");
+            System.out.println("Database error");
             System.out.println(ex.getMessage());
             return null;
         }

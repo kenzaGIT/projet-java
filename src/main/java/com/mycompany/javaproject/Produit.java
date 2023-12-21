@@ -152,7 +152,7 @@ public class Produit {
                 res = true;
                 
         } catch (SQLException ex) {
-            System.out.print("Problème de modification du produit ");
+            System.out.print("Problem with modifying the product ");
             System.out.println(ex.getMessage());
         }
         
@@ -169,7 +169,7 @@ public class Produit {
             
             pstmt.setInt(1, idP);
             
-            System.out.println("HEEELLOOOOOO  " + pstmt);
+
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 1)

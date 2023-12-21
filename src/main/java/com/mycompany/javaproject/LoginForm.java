@@ -61,7 +61,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        ConnexionButton.setFont(new java.awt.Font("Heiti TC", 1, 18)); // NOI18N
+        ConnexionButton.setFont(new java.awt.Font("Heiti TC", 1, 24)); // NOI18N
         ConnexionButton.setForeground(new java.awt.Color(0, 102, 102));
         ConnexionButton.setText("Connexion");
         ConnexionButton.addActionListener(new java.awt.event.ActionListener() {
@@ -70,14 +70,16 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Page de connexion");
+        jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(102, 0, 0));
+        jLabel3.setText("Login Interface");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(305, Short.MAX_VALUE)
+                .addContainerGap(272, Short.MAX_VALUE)
                 .addComponent(ConnexionButton)
                 .addGap(290, 290, 290))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -111,7 +113,7 @@ public class LoginForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -142,7 +144,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         try {
             Connection conn = mySQL.getConnection();
-            conn.setAutoCommit(false); // Set auto-commit to false
+            conn.setAutoCommit(false); 
 
             String SQL = "SELECT username,password,user from connexion where username= ? and password= ?";
             try (PreparedStatement preparedStatement = conn.prepareStatement(SQL)) {
@@ -152,23 +154,23 @@ public class LoginForm extends javax.swing.JFrame {
 
                 if (resultSet.next()) {
                     int user = resultSet.getInt("user");
-                    //  System.out.println(user);
+                    
                     if (user == 0) {
-                        // User is a vendeur, navigate to VendeurForm
-                        this.dispose(); // Close the current login form
+                 
+                        this.dispose(); 
 
-                        Vendeur vendeurForm = new Vendeur(); // Replace with the actual class name
+                        Vendeur vendeurForm = new Vendeur(); 
                         vendeurForm.setVisible(true);
                     } else if (user == 1) {
-                        this.dispose(); // Close the current login form
-                        Admin adminForm = new Admin(); // Replace with the actual class name
+                        this.dispose(); 
+                        Admin adminForm = new Admin(); 
                         adminForm.setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(this, "Unknown user type. Please contact support.");
                     }
 
                 } else {
-                    // User not found, login failed
+                  
                     JOptionPane.showMessageDialog(this, "Invalid username or password. Please try again.");
                 }
             }

@@ -79,7 +79,7 @@ import javax.swing.table.DefaultTableModel;
     double revenu = 0;
     try {
         Connection conn = mySQL.getConnection();
-        String sql = "SELECT SUM(prixU * quantiteVendue) AS revenuTotal FROM vente NATURAL JOIN produit WHERE dateVente BETWEEN ? AND ?";
+        String sql = "SELECT SUM(prixVente) AS revenuTotal FROM vente WHERE dateVente BETWEEN ? AND ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
 
